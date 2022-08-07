@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>PlannYear</title>
+
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="icon" href="{{ url_for('static', filename='img/cs.ico') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/custom.css') }}">
+
+</head>
+
+<body>
+	
+	<div class="center logo">
+		<a href="">
+			<input type="image" src="../static/img/logo.png" name="logo" alt="logo" width="300"/>
+		</a>
+	</div>
+	
+	<div class="selectButton linha">
+		<div class="coluna-50">
+			<a href="importantThings">
+				<input type="image" src="../static/img/importantThings.png" name="importantThings" alt="importantThings"/>
+			</a>
+		</div>
+		
+		<div class="coluna-50">
+			<a href="todoThings">
+				<input type="image" src="../static/img/todoThings.png" name="todoThings" alt="todoThings"/>
+			</a>
+		</div>
+	</div>
+
+</body>
+
+</html>

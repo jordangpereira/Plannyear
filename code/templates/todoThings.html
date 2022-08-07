@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>PlannYear</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="icon" href="{{ url_for('static', filename='img/cs.ico') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/custom.css') }}">
+
+</head>
+
+<body>
+
+	<div class="center logo">
+		<a href="../">
+			<input type="image" src="../static/img/logo.png" name="logo" alt="logo" width="300"/>
+		</a>
+	</div>
+	
+	<div class="selectButton linha">
+		<div class="coluna-50">
+			<a href="../importantThings">
+				<input type="image" src="../static/img/importantThings.png" name="importantThings" alt="importantThings"/>
+			</a>
+		</div>
+		
+		<div class="coluna-50">
+			<a href="../todoThings">
+				<input type="image" src="../static/img/todoThings.png" name="todoThings" alt="todoThings"/>
+			</a>
+		</div>
+	</div>
+
+
+	<div class="container center" style="font-size: 25px; font-weight: bold;">
+        Dia Visualizado: 
+        <div>
+            <script>
+            date = new Date().toLocaleDateString();
+            document.write(date);
+            </script>
+        </div>
+    </div>
+    
+
+    <div class="container" style="margin-top: 10px;">    
+        <div style="text-align: right;">
+        <button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#task-modal" data-source="Nova Tarefa">Adicionar Tarefa</button>
+        </div>
+
+        
+        <div class="modal fade" id="task-modal" tabindex="-1" aria-labelledby="Label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="Label">Adicionar uma Tarefa</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="task-form-display">Tarefa</span>
+                    <input type="text" class="form-control" placeholder="Descreva a Tarefa" aria-label="task-name" aria-describedby="basic-addon1">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button id="submit-task" type="button" class="btn btn-primary">Adicionar</button>
+            </div>
+            </div>
+        </div>
+        </div>
+
+    </div>
+
+    <div class="container table-responsive">          
+    <table class="table">
+        <thead>
+        <tr>
+            <th class="task-id">ID</th>
+            <th class="task">Tarefa</th>
+            <th class="status">Status</th>
+            <th class="update">Alterar</th>
+            <th class="update">Remover</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for item in items %}
+            <tr>
+                <td>{{item.id}}</td>
+                <td>{{item.task}}</td>
+
+                {% if item.status == "A Fazer" %}
+                    <td><button type="button" class="btn btn-outline-danger btn-sm state" data-source="{{item.id}}">{{item.status}}</button></td>
+                {%endif%}
+
+                {% if item.status == "Em Curso" %}
+                    <td><button type="button" class="btn btn-outline-warning btn-sm state" data-source="{{item.id}}">{{item.status}}</button></td>
+                {%endif%}
+                
+                {% if item.status == "Concluída" %}
+                    <td><button type="button" class="btn btn-outline-success btn-sm state" data-source="{{item.id}}">{{item.status}}</button></td>
+                {%endif%}
+                
+                <td><button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#task-modal" data-source="{{item.id}}" data-content="{{item.task}}"><i class="fa fa-pen fa-1" aria-hidden="true"></i></button></td>
+
+                <td><button class="btn btn-outline-secondary btn-sm remove" data-source="{{item.id}}" type="button"><i class="fa fa-trash fa-1" aria-hidden="true"></i></button></td>
+            </tr>
+        {% endfor %}
+        
+        </tbody>
+    </table>
+    </div>
+
+</body>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='script/modalTD.js') }}"></script>
+
+</html>
