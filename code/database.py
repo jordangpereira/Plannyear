@@ -157,22 +157,19 @@ def getSpendingsDay(mysql, day, month, year):
     # Seleciona todas as Tasks da Data
     cursor.execute("SELECT id, amount FROM spendingList WHERE day = %s AND month = %s AND year = %s", (str(day), str(month), str(year)))
     
-    if cursor.rowcount == 0: # Caso a quantidade de linhas seja 0 (não foi encontrada nenhuma informação)
-        return
-    else:
-        result = cursor.fetchall()
-        listSpendings = []
-        totalValue = 0
+    result = cursor.fetchall()
+    listSpendings = []
+    totalValue = 0
 
-        for row in result:
-            task = {
-                "id" : row[0],
-                "amount" : row[1]
-            }
-            listSpendings.append(task)
-            totalValue += row[1]
+    for row in result:
+        task = {
+            "id" : row[0],
+            "amount" : row[1]
+        }
+        listSpendings.append(task)
+        totalValue += row[1]
 
-        return listSpendings, totalValue
+    return listSpendings, totalValue
 
 # GET
 def getTotalSpendingsMonth(mysql, month, year):
@@ -181,23 +178,28 @@ def getTotalSpendingsMonth(mysql, month, year):
     # Seleciona todas as Tasks da Data
     cursor.execute("SELECT amount FROM spendingList WHERE month = %s AND year = %s", (str(month), str(year)))
     
-    if cursor.rowcount == 0: # Caso a quantidade de linhas seja 0 (não foi encontrada nenhuma informação)
-        return
-    else:
-        result = cursor.fetchall()
-        totalValue = 0
+    result = cursor.fetchall()
+    totalValue = 0
 
-        for row in result:
-            totalValue += row[0]
+    for row in result:
+        totalValue += row[0]
 
-        return totalValue
+    return totalValue
 
 # PUT
 def createSpending(mysql, day, month, year, amount):
     cursor = mysql.connection.cursor()
 
+    cursor.execute("SELECT * FROM spendingList ORDER BY id DESC LIMIT 1")
+
+    if cursor.rowcount == 0:
+        id = 1
+    else:
+        result = cursor.fetchall()
+        id = result[0][0] + 1
+
     # Insere a Task no Banco de Dados com o Status Inicial de "A Fazer"
-    cursor.execute("INSERT INTO spendingList (day, month, year, amount) VALUES (%s, %s, %s, %s)", (str(day), str(month), str(year), str(amount)))
+    cursor.execute("INSERT INTO spendingList (id, day, month, year, amount) VALUES (%s, %s, %s, %s, %s)", (str(id), str(day), str(month), str(year), str(amount)))
 
     # Realiza o Commit no banco de dados da alteração realizada.
     mysql.connection.commit()

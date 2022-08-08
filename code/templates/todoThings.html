@@ -38,13 +38,19 @@
 	</div>
 
 
-	<div class="container center" style="font-size: 25px; font-weight: bold;">
-        Dia Visualizado: 
-        <div>
-            <script>
-            date = new Date().toLocaleDateString();
-            document.write(date);
-            </script>
+	<div class="container center linha" style="font-size: 25px; font-weight: bold;">
+        <div class="coluna-50">
+            Dia Visualizado: 
+            <div>
+                <script>
+                date = new Date().toLocaleDateString();
+                document.write(date);
+                </script>
+            </div>
+        </div>
+        <div class="coluna-50">
+            Alterar dia: <br>
+            <input type="date" id="date" name="trip-date" min="2022-01-01" style="font-size: 15px;">
         </div>
     </div>
     
@@ -112,6 +118,67 @@
                 <td><button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#task-modal" data-source="{{item.id}}" data-content="{{item.task}}"><i class="fa fa-pen fa-1" aria-hidden="true"></i></button></td>
 
                 <td><button class="btn btn-outline-secondary btn-sm remove" data-source="{{item.id}}" type="button"><i class="fa fa-trash fa-1" aria-hidden="true"></i></button></td>
+            </tr>
+        {% endfor %}
+        
+        </tbody>
+    </table>
+    </div>
+
+    <div class="container center" style="font-size: 25px; font-weight: bold; margin-top: 30px;">
+        Gastos do Dia: {{spendingDay}} || Gastos do Mês: {{spendingMonth}}
+    </div>
+
+    <div class="container" style="margin-top: 10px;">    
+        <div style="text-align: right;">
+        <button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#spending-modal" data-source="Novo Gasto">Adicionar Gasto</button>
+        </div>
+
+        
+        <div class="modal fade" id="spending-modal" tabindex="-1" aria-labelledby="Label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="Label">Adicionar um Gasto</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="spending-form-display">Valor</span>
+                    <input type="text" class="form-control" placeholder="Informe o Valor" aria-label="spending-name" aria-describedby="basic-addon1">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button id="submit-spending" type="button" class="btn btn-primary">Adicionar</button>
+            </div>
+            </div>
+        </div>
+        </div>
+
+    </div>
+
+    <div class="container table-responsive">          
+    <table class="table">
+        <thead>
+        <tr>
+            <th class="task-id">ID</th>
+            <th class="task">Valor</th>
+            <th class="update">Alterar</th>
+            <th class="update">Remover</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for itemS in spendingItems %}
+            <tr>
+                <td>{{itemS.id}}</td>
+                <td>{{itemS.amount}}</td>
+                
+                <td><button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#spending-modal" data-source="{{itemS.id}}" data-content="{{itemS.amount}}"><i class="fa fa-pen fa-1" aria-hidden="true"></i></button></td>
+
+                <td><button class="btn btn-outline-secondary btn-sm removeSpending" data-source="{{itemS.id}}" type="button"><i class="fa fa-trash fa-1" aria-hidden="true"></i></button></td>
             </tr>
         {% endfor %}
         

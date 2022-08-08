@@ -86,4 +86,63 @@ $(document).ready(function () {
         });
     });
 
+
+
+    $('#spending-modal').on('show.bs.modal', function (event) {
+        const button = $(event.relatedTarget)
+        const spendingID = button.data('source')
+        const content = button.data('content')
+
+        const modal = $(this)
+        if (spendingID === 'Novo Gasto') {
+            modal.find('.modal-title').text(spendingID)
+            $('#spending-form-display').removeAttr('spendingID')
+        } else {
+            modal.find('.modal-title').text('Alterar Gasto ' + spendingID)
+            $('#spending-form-display').attr('spendingID', spendingID)
+        }
+
+        if (content) {
+            modal.find('.form-control').val(content);
+        } else {
+            modal.find('.form-control').val('');
+        }
+    })
+
+
+    $('#submit-spending').click(function () {
+        const sID = $('#spending-form-display').attr('spendingID');
+        console.log($('#spending-modal').find('.form-control').val())
+        $.ajax({
+            type: 'POST',
+            url: sID ? '/todoThings/update_spending/' + sID : '/todoThings/create_spending',
+            contentType: 'application/json;charset=UTF-8',
+            data: JSON.stringify({
+                'description': $('#spending-modal').find('.form-control').val()
+            }),
+            success: function (res) {
+                console.log(res.response)
+                location.reload();
+            },
+            error: function () {
+                console.log('Error');
+            }
+        });
+    });
+
+    $('.removeSpending').click(function () {
+        const remove = $(this)
+        $.ajax({
+            type: 'POST',
+            url: '/todoThings/delete_spending/' + remove.data('source'),
+            success: function (res) {
+                console.log(res.response)
+                location.reload();
+            },
+            error: function () {
+                console.log('Error');
+            }
+        });
+    });
+
 });
